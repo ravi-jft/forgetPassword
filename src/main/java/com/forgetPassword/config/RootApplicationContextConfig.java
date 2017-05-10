@@ -2,6 +2,9 @@ package com.forgetPassword.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.context.annotation.*;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -40,6 +43,18 @@ public class RootApplicationContextConfig {
         dataSource.setUrl("jdbc:mysql://localhost:3306/forgetpwd");
         return dataSource;
     }
+/*
+    @Bean
+    public DataSourceInitializer dataSourceInitializer(){
+        ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
+       // resourceDatabasePopulator.addScript(new ClassPathResource(''));
+        resourceDatabasePopulator.addScript(new ClassPathResource("db/insert-data.sql"));
+
+        DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+        dataSourceInitializer.setDataSource(dataSource());
+        dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
+        return dataSourceInitializer;
+    }*/
 
     @Bean(name = "sessionFactory")
     public LocalSessionFactoryBean sessionFactory() {

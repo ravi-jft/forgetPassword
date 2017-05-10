@@ -23,8 +23,8 @@ public class Users implements Serializable {
 	@Column(name = "password", nullable = false, length = 100)
 	private String password;
 
-	@Column(name = "failed_logins")
-	private Integer failedLogins;
+	@Column(name = "email",nullable = false)
+	private String email;
 
 	@Column(name = "enabled")
 	private Boolean enabled;
@@ -32,10 +32,7 @@ public class Users implements Serializable {
 	@Column(name = "locked")
 	private Boolean locked;
 
-	@Column(name = "last_login_date", length = 23)
-	private Date lastLoginDate;
-
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = {
 			@JoinColumn(name = "user", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "role", nullable = false, updatable = false) })
@@ -57,16 +54,15 @@ public class Users implements Serializable {
 		this.userId = userId;
 	}
 
-	public Users(String username, String password, Integer failedLogins,
-				 Boolean enabled, Boolean locked, Date lastLoginDate,
+	public Users(String username, String password,String email,
+				 Boolean enabled, Boolean locked,
 				 Set<Roles> roleses) {
 		this.username = username;
 		this.password = password;
-		this.failedLogins = failedLogins;
+		this.email=email;
 		this.enabled = enabled;
 
 		this.locked = locked;
-		this.lastLoginDate = lastLoginDate;
 		this.roleses = roleses;
 	}
 
@@ -86,13 +82,10 @@ public class Users implements Serializable {
 		this.password = password;
 	}
 
-	public Integer getFailedLogins() {
-		return this.failedLogins;
-	}
 
-	public void setFailedLogins(Integer failedLogins) {
-		this.failedLogins = failedLogins;
-	}
+	public String getEmail() {return email; }
+
+	public void setEmail(String email) {this.email = email; }
 
 	public Boolean getEnabled() {
 		return this.enabled;
@@ -108,14 +101,6 @@ public class Users implements Serializable {
 
 	public void setLocked(Boolean locked) {
 		this.locked = locked;
-	}
-
-	public Date getLastLoginDate() {
-		return this.lastLoginDate;
-	}
-
-	public void setLastLoginDate(Date lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
 	}
 
 	public Set<Roles> getRoleses() {
